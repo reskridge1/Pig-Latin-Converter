@@ -1,12 +1,13 @@
 package converter;
 
-import stringutil.StringUtil;
+import reskr.util.StringExtras;
 
 /**
  *
  * @author Reskr
  */
-public class Converter {
+public class Converter
+{
 
   static String[] astrConsonantClusters =
   {
@@ -28,7 +29,7 @@ public class Converter {
   {
     for(String cluster : astrConsonantClusters)
     {
-      if(StringUtil.startsWith(str, cluster))
+      if(StringExtras.startsWith(str, cluster))
       {
         return str.substring(cluster.length()) + cluster + "ay";
       }
@@ -45,16 +46,15 @@ public class Converter {
   public static String toPigLatin(String str)
   {
     StringBuilder sb = new StringBuilder();
-    str = StringUtil.trim(str);
+    str = StringExtras.trim(str);
 
-    if(!StringUtil.isEmptyOrNull(str))
+    if(!StringExtras.isBlank(str))
     {
-      if(!StringUtil.equals(str, getPigLatinForClusteredString(str))) //handles if it starts with a consonant cluster
+      if(!StringExtras.equals(str, getPigLatinForClusteredString(str))) //handles if it starts with a consonant cluster
       {
         return getPigLatinForClusteredString(str);
       }
-      if(StringUtil.equals(str, "I") || (StringUtil.equals(str, "a") || StringUtil.
-              equals(str, "an"))) //handles articles "a" and "an", and the pronoun "I"
+      if(StringExtras.equals(str, "I") || (StringExtras.equals(str, "a") || StringExtras.equals(str, "an"))) //handles articles "a" and "an", and the pronoun "I"
       {
         return str;
       }
@@ -63,17 +63,17 @@ public class Converter {
         char chStart = str.charAt(0);
         char chLast = str.charAt(str.length() - 1);
 
-        if(StringUtil.isVowel(chStart) && StringUtil.isVowel(chLast)) //checks if it starts and ends with vowel
+        if(StringExtras.isVowel(chStart) && StringExtras.isVowel(chLast)) //checks if it starts and ends with vowel
         {
           sb.append(str);
           sb.append("way");
         }
-        else if(StringUtil.startsWith(str, "h") && StringUtil.isVowel(str.charAt(1))) //if the word starts with h and is followed by vowel (treat it like the case for vowels)
+        else if(StringExtras.startsWith(str, "h") && StringExtras.isVowel(str.charAt(1))) //if the word starts with h and is followed by vowel (treat it like the case for vowels)
         {
           sb.append(str);
           sb.append("way");
         }
-        else if(StringUtil.isVowel(chStart) && !StringUtil.isVowel(chLast)) //case where it starts with vowel but doesn't end with one
+        else if(StringExtras.isVowel(chStart) && !StringExtras.isVowel(chLast)) //case where it starts with vowel but doesn't end with one
         {
           sb.append(str);
           sb.append("ay");
@@ -100,17 +100,17 @@ public class Converter {
     StringBuilder sb = new StringBuilder();
     if(str != null)
     {
-      java.util.List<String> alWords = StringUtil.tokenizeString(str, " ");
+      java.util.List<String> alWords = StringExtras.tokenizeStringToList(str, StringExtras.SINGLE_SPACE);
       if(alWords == null)
       {
-        return "";
+        return StringExtras.EMPTY_STRING;
       }
       if(!alWords.isEmpty())
       {
         for(String strWord : alWords)
         {
           sb.append(toPigLatin(strWord));
-          sb.append(" ");
+          sb.append(StringExtras.SINGLE_SPACE);
         }
       }
     }
